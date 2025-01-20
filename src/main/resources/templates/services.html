@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">    <!-- Link to Google Fonts for Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<head>
+    <title>Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any custom styles or links -->
+</head>
+
+<style>
+
+    .catalog-section {
+        background-color: #f5f0ea;
+        font-family: 'Montserrat', sans-serif;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .catalog-header {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* This will keep 3 columns */
+        gap: 20px 0px;
+        max-height: 900px;
+        overflow: hidden;
+        padding: 10px;
+        width: 90%;  /* Ensure it takes full width */
+        margin:0 auto;
+    }
+    .catalog-item {
+    display: flex;
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center; /* Center-align image and text */
+    text-align: center; /* Center-align text */
+    }
+
+    .catalog-item-text {
+        margin-top: 8px; /* Add space between the image and the text */
+        font-size: 1rem; /* Adjust font size */
+        color: #3a2618; /* Match the theme color */
+        font-weight: 500; /* Optional: Adjust text weight */
+    }
+
+    .catalog-item img {
+        width: 410px;
+        height: 410px;
+        object-fit: cover;
+        border: 2px solid #ccc; /* Optional: Border around images */
+        border-radius: 8px; /* Optional: Rounded corners */
+    }
+    .catalog-expanded .catalog-grid {
+        max-height: 100%; /* Allow all images to be visible */
+    }
+
+    .catalog-arrow {
+        margin-top: 20px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        transform: rotate(0deg); /* Initial state */
+        width: 30px; /* Smaller size */
+        opacity: 0.5; /* Decreased opacity */
+    }
+
+    .catalog-arrow:hover {
+        opacity: 0.7; /* Slightly increased opacity on hover */
+    }
+
+    .catalog-expanded .catalog-arrow {
+        transform: rotate(180deg); /* Rotated when expanded */
+    }
+        .services-section {
+        background-color: #d9b596;
+        padding: 40px 20px;
+        font-family: 'Montserrat', sans-serif;
+        text-align: center; /* Center-align all content */
+    }
+
+    .services-header {
+        font-size: 2rem;
+        margin-bottom: 20px; /* Space between header and content */
+        text-transform: uppercase;
+        color: #3a2618; /* Matches the theme */
+    }
+
+    .services-content {
+        display: flex;
+        flex-direction: row; /* Side-by-side layout for image and text */
+        align-items: center;
+        gap: 30px; /* Space between image and text */
+    }
+
+    .services-image {
+        flex: 1;
+        max-width: 30%; /* Image takes half the space */
+    }
+
+    .services-image img {
+        width: 100%; /* Ensure image fills container */
+        max-width: 400px; /* Cap the size of the image */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 8px; /* Optional: Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    .services-text {
+        flex: 2; /* Allocate space for the text */
+        text-align: left; /* Align text to the left */
+        max-width: 1000px; /* Set a maximum width for the text container */
+        margin: 0 auto; /* Center the text container if extra space exists */
+    }
+
+
+    .service-item {
+        margin-bottom: 20px;
+    }
+
+    .service-item h3 {
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        color: #3a2618; /* Darker brown for headers */
+    }
+
+    .service-item p {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: #3a2618; /* Match the theme */
+    }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    catalog-grid {
+        grid-template-columns: 1fr; /* Stack items in one column on mobile */
+    }
+
+    .catalog-item {
+        display: flex;
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center; /* Center items horizontally */
+        text-align: center; /* Center text */
+        margin-bottom: 20px; /* Add some space between items */
+        width: 100%; /* Ensure the item takes the full width */
+    }
+
+    .catalog-item img {
+        width: 100%; /* Make sure images are responsive and fill the container */
+        max-width: 410px; /* Optional: Set a max width for the image */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .catalog-item-text {
+        margin-top: 8px;
+        font-size: 1rem;
+        color: #3a2618;
+        font-weight: 500;
+        text-align: center; /* Ensure text is centered */
+        width: 100%; /* Ensure text spans the full width */
+    }
+        .services-content {
+            flex-direction: column; /* Stack image and text vertically on mobile */
+            gap: 20px; /* Reduce gap between image and text */
+        }
+
+        .services-image {
+            max-width: 100%; /* Allow image to fill its container */
+        }
+
+        .services-header {
+            font-size: 1.5rem; /* Reduce font size of header on mobile */
+        }
+
+        .service-item h3 {
+            font-size: 1.5rem; /* Adjust header font size */
+        }
+
+        .service-item p {
+            font-size: 1.1rem; /* Adjust paragraph font size */
+        }
+    }
+
+</style>
+<body>
+
+    <!-- Include the Navbar Fragment -->
+    <div th:replace="~{navbar.html}"></div>
+
+    <div class="catalog-section" id="catalog">
+        <div class="catalog-header">Our Catalog</div>
+        <div class="catalog-grid">
+            <div class="catalog-item">
+                <img src="/images/1_SSATAN.JPG" alt="SSA Tan">
+                <div class="catalog-item-text">SSA Tan</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/2_PUBTAN.JPG" alt="PUB Tan">
+                <div class="catalog-item-text">PUB Tan</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/3_NUBUCKKHAKI.png" alt="NUBUCK Khaki">
+                <div class="catalog-item-text">NUBUCK Khaki</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/4_FGCARAMEL.JPG" alt="FULL GRAIN Caramel">
+                <div class="catalog-item-text">FULL GRAIN Caramel</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/5_PUBCOPPERBROWN.JPG" alt="PUB Copper Brown">
+                <div class="catalog-item-text">PUB Copper Brown</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/6_NUBUCKANTIQUE.JPG" alt="NUBUCK Antique">
+                <div class="catalog-item-text">NUBUCK Antique</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/7_WEBBCHESTNUT.png" alt="WEBB Chestnut">
+                <div class="catalog-item-text">WEBB Chestnut</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/8_SSADARKBROWN.jpg" alt="SSA Dark Brown">
+                <div class="catalog-item-text">SSA Dark Brown</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/9_CROCOBROWN.JPG" alt="CROCODILE Brown">
+                <div class="catalog-item-text">CROCODILE Brown</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/10_WEBBDARKBROWN.JPG" alt="WEBB Dark Brown">
+                <div class="catalog-item-text">WEBB Dark Brown</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/11_CROCOBLACK.png" alt="CROCODILE Black">
+                <div class="catalog-item-text">CROCODILE Black</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/12_NAPPABLACK.png" alt="NAPPA Black">
+                <div class="catalog-item-text">NAPPA Black</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/13_FGMAROON.png" alt="FULL GRAIN Maroon">
+                <div class="catalog-item-text">FULL GRAIN Maroon</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/14_WEBBCARAMEL.png" alt="WEBB Caramel">
+                <div class="catalog-item-text">WEBB Caramel</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/15_SSAMAROON.jpg" alt="SSA Maroon">
+                <div class="catalog-item-text">SSA Maroon</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/16_NUBUCKMOSS.png" alt="NUBUCK Moss">
+                <div class="catalog-item-text">NUBUCK Moss</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/17_FGDUST.png" alt="FULL GRAIN Dust">
+                <div class="catalog-item-text">FULL GRAIN Dust</div>
+            </div>
+            <div class="catalog-item">
+                <img src="/images/18_PSDARKGREEN.jpg" alt="PS Dark Green">
+                <div class="catalog-item-text">PS Dark Green</div>
+            </div>
+            
+
+            <!-- Add more catalog items as needed -->
+        </div>
+        <img src="/images/arrowdown.png" alt="Expand" class="catalog-arrow" onclick="toggleCatalog()">
+    </div>
+    
+
+    <div class="services-section" id="services">
+        <!-- Section Header -->
+        <div class="services-header">Our Services</div>
+        
+        <!-- Content Wrapper -->
+        <div class="services-content">
+            <!-- Image -->
+            <div class="services-image">
+                <img src="/images/SERVICES.JPG" alt="Our Services">
+            </div>
+            <!-- Text -->
+            <div class="services-text">
+                <div class="service-item">
+                    <h3>Tanning Services</h3>
+                    <p>Jarkims Leather Corporation provides expert tanning services, transforming rawhides into premium leather tailored to meet client needs.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Leather Finishing Services</h3>
+                    <p>Jarkims Leather Corporation offers professional leather finishing services, customizing colors, textures, prints, finishes, and thicknesses to align with client specifications.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include the Footer Fragment -->
+    <div th:replace="~{footer.html}"></div>
+   
+    <!-- Toggle Catalog Script -->
+<script>
+    function toggleCatalog() {
+        const catalogSection = document.getElementById('catalog');
+        catalogSection.classList.toggle('catalog-expanded');
+    }
+    </script>
+</body>
+</html>

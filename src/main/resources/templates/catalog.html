@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Use full version of jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Link to Google Fonts for Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    
+<!-- Link to Bootstrap CSS for Carousel -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Link to Cinzel Bold -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+
+<head>
+    <title>Jarkims</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* Set background color for the whole page */
+        body {
+            background-color: #f5f0ea;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        /* Style the carousel to fill most of the page height */
+        .carousel-item img {
+            width: 100%;
+            height: 84vh; /* Set the height to 80% of the viewport height */
+            object-fit:fill; /* Make the images cover the area without distortion */
+        }
+
+        /* Style for the text overlay on the images */
+        .carousel-caption {
+            position: absolute;
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust to perfectly center the text */
+            color: white; /* Set text color */
+            font-size: 2rem; /* Adjsust font size */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Shadow for readability */
+            text-transform: uppercase; /* Make text uppercase */
+            font-weight: bold; /* Bold text */
+            font-family:'Montserrat', sans-serif;
+            opacity: 80%;
+        }
+        
+        /* Bottom block styling */
+        .bottom-block {
+            background-color: #d9b596; /* Background color */
+            color: #352d27; /* Text color */
+            text-align: center; /* Center the text */
+            padding: 20px; /* Padding around the text */
+            font-size: 1.5rem; /* Font size */
+            font-weight: bold; /* Bold text */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 4px;
+            font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
+        }
+        .carousel-header {
+            margin-top: 30px;
+            text-align: center;
+            margin-bottom: 20px; /* Space below the header */
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .carousel-header h2 {
+            font-size: 2rem;
+            color: #352d27; /* You can change the color */
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        /* Styling the carousel container */
+        #newCarousel {
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            margin: auto; /* Centers the carousel horizontally */
+            margin-top: 40px; /* Space above the carousel */
+            margin-bottom: 40px; /* Space below the carousel */
+            width: 100%; /* Ensure it spans the width of the container */
+            max-width: 1300px; /* Optional: Limit the max width */
+            overflow: hidden; /* Prevent content overflow */
+        }
+        
+        /* Center all carousel items */
+        #newCarousel .carousel-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 500px; /* Set the desired height */
+            overflow: hidden; /* Prevent content overflow */
+        }
+
+        /* Style individual carousel items and stack content vertically */
+        #newCarousel .carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Stack content vertically */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 95%;
+            opacity: 0;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+            text-align: center;
+        }
+
+        #newCarousel .carousel-item p {
+            font-size: 1.5rem;
+            color: #352d27;
+            margin-top: 20px; /* Space between the image and the text */
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Make the active item fully visible */
+        #newCarousel .carousel-item.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        /* Dim and scale down the left item */
+        #newCarousel .carousel-item-prev,
+        #newCarousel .carousel-item.left {
+            transform: translateX(-30%) scale(0.8);
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        /* Dim and scale down the right item */
+        #newCarousel .carousel-item-next,
+        #newCarousel .carousel-item.right {
+            transform: translateX(30%) scale(0.8);
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        #newCarousel .carousel-control-prev,
+        #newCarousel .carousel-control-next {
+            z-index: 10; /* Ensure buttons are above other elements */
+        }
+
+        /* Images should be responsive */
+        #newCarousel .carousel-item img {
+            max-width: 80%;
+            max-height: 100%;
+            object-fit: contain; /* Prevent image distortion */
+        }
+
+
+        /* Optional: Styles for the navigation arrows */
+        #newCarousel .carousel-control-prev-icon,
+        #newCarousel .carousel-control-next-icon {
+            background-color: #3a2618; /* Change the background color of the icons */
+            color:#3a2618;
+            width: 30px; /* Optional: Adjust the size */
+            height: 30px;
+            border-radius: 50%; /* Optional: Make the icon background circular */
+        }
+
+        #newCarousel .carousel-control-prev-icon:after,
+        #newCarousel .carousel-control-next-icon:after {
+            content: ''; /* Ensure no default arrow content interferes */
+        }
+
+        /* Styling for the 'See More' button */
+        .see-more-btn {
+            text-align: center;
+            margin-top: 20px; /* Space above the button */
+            margin-bottom: 20px;
+        }
+
+        .see-more-btn .btn {
+            background-color: #352d27; /* Customize button color */
+            color: white; /* Text color */
+            font-weight: bold;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            border-color: #352d27;
+            border-radius: none;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .see-more-btn .btn:hover {
+            background-color: #d9b596; /* Hover effect */
+        }
+
+        /* Accredited by section styling */
+        .accredited-section {
+            background-color: #6c3513;
+            padding: 40px 0;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .accredited-section h3 {
+            color: #f5f0ea;
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .accredited-logos {
+            display: flex;
+            justify-content: center;
+            gap: 90px; /* Space between logos */
+            flex-wrap: wrap;
+        }
+
+        .accredited-logo img {
+            width: 100px; /* Set width for the logos */
+            height: auto;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+    .carousel-item img {
+        height:70vh; /* Adjust height on smaller screens */
+        object-fit: cover; /* Ensure images are cropped without distortion */
+    }
+    
+    /* Optional: Hide carousel control arrows on mobile */
+    .carousel-control-prev, .carousel-control-next {
+        display: none;
+    }
+    .bottom-block {
+        font-size: 1rem; /* Smaller text size for mobile */
+        padding: 15px; /* Adjust padding if needed */
+    }
+    .carousel-caption {
+        font-size: 0.8rem;
+        display: block !important; /* Ensure it's visible on mobile too */
+        opacity: 85%;
+    }
+
+    /* Ensure the "See More" button is responsive */
+    .see-more-btn .btn {
+        padding: 8px 16px; /* Adjust padding */
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Include the Navbar Fragment -->
+    <div th:replace="~{navbar.html}"></div>
+
+<!-- Photo Carousel with Text Overlays -->
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="/images/home_Carousel1.JPG" class="d-block w-100" alt="First slide">
+      <div class="carousel-caption d-none d-md-block">
+        <p>Committed to becoming the Philippines' top leather manufacturer</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="/images/home_Carousel2.JPG" class="d-block w-100" alt="Second slide">
+      <div class="carousel-caption d-none d-md-block">
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="/images/home_Carousel3.JPG" class="d-block w-100" alt="Third slide">
+      <div class="carousel-caption d-none d-md-block">
+      </div>
+    </div>
+  </div>
+  <!-- Carousel Controls -->
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- Bottom Block with Text -->
+<div class="bottom-block">
+  From Raw to Refined, Leather That Lasts
+</div>
+
+<!-- Header Section -->
+<div class="carousel-header">
+    <h2>Our Catalog</h2>
+</div>
+
+<!--NEW CAROUSEL-->
+<div id="newCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/images/SSATAN.JPG" alt="S S A tan" class="d-block w-100">
+            <p>SSA Tan</p>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/CROCOBLACK.png" alt="Crocodile Black" class="d-block w-100">
+            <p>Crocodile Black</p>
+        </div>
+        <div class="carousel-item">
+            <img src="/images/CROCOMAROON.JPG" alt="Crocodile Maroon" class="d-block w-100">
+            <p>Crocodile Maroon</p>
+        </div>
+    </div>
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#newCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#newCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- See More Button -->
+<div class="see-more-btn">
+    <a href="/services" class="btn btn-primary">See More</a>
+</div>
+
+
+<!-- Accredited By Section -->
+<div class="accredited-section">
+    <h3>Accredited By:</h3>
+    <div class="accredited-logos">
+        <div class="accredited-logo">
+            <img src="/images/DENR.png" alt="DENR">
+        </div>
+        <div class="accredited-logo">
+            <img src="/images/BAI.png" alt="Bureau of Animal Industry">
+        </div>
+        <div class="accredited-logo">
+            <img src="/images/DTI.png" alt="Departnment of trade and industry">
+        </div>
+        <div class="accredited-logo">
+            <img src="/images/SEC.png" alt="Securities and Exchange Commission">
+        </div>
+    </div>
+</div>
+    <!-- Include the Footer Fragment -->
+    <div th:replace="~{footer.html}"></div>
+
+</body>
+</html>
