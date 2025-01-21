@@ -1,3 +1,6 @@
 [submodule "path/to/submodule"]
 	path = path/to/submodule
 	url = https://github.com/gadlyndonpineda/JarkimsLeather.git
+[submodule "JarkimsLeather"]
+	path = JarkimsLeather
+	url = https://github.com/gadlyndonpineda/JarkimsLeather.git
