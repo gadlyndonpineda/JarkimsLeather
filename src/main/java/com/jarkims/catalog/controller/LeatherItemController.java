@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LeatherItemController {
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String getLeatherItems(Model model) {
         // Serve the catalog page
         return "catalog";
